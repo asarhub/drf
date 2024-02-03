@@ -50,4 +50,13 @@ class DetailTagView(APIView):
         except Tags.MultipleObjectReturned:
             return Response({"message":"Multiple tags exist for given slug"},status=status.HTTP_400_BAD_REQUEST)
 
+class ListTagView(APIView):
+    def get(self,request):
+        try:
+            Queryset = Tags.objects.all()
+            #many = True here status that it is not one object. It is many objects. So we have to mention many=True
+            response_data = ReadTagserializer(instance=Queryset, many = True).data
+            return Response(response_data,status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"unable to fetch tags list"}, status = status.HTTP_400_BAD_REQUEST)
 
