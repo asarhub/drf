@@ -6,6 +6,7 @@ from tags.serializers import WriteTagserializer, ReadTagserializer
 from tags.models import Tags
 from django.utils.text import slugify
 from django.core.cache import cache
+from rest_framework.generics import RetrieveAPIView,ListAPIView
 class CreateTagView(APIView):
     def post(self,request):
         #for write operation we use data=request.data(from client side validation)
@@ -59,4 +60,23 @@ class ListTagView(APIView):
             return Response(response_data,status=status.HTTP_200_OK)
         except:
             return Response({"message":"unable to fetch tags list"}, status = status.HTTP_400_BAD_REQUEST)
+
+class DetailTagV2View(RetrieveAPIView):#Here RetrieveAPIView is mentioned because we are fetching one object
+    #here retriveapiview takes all the objects and parameter information based on url
+    queryset = Tags.objects.all()
+    serializer_class = ReadTagserializer
+    #Lookup field is responsible for filtering the objects. lets say in URL you mentioned detail/hello
+    #then based on slug unformation , the corresponding object is printed in postman window
+    lookup_field = "slug"
+
+class ListTagV2View(ListAPIView):#Here ListAPIView is mentioned because we are listing more than 1 object
+    #here parameter is not there in url so lookup field is not there, Here we are fetching full json information
+    queryset = Tags.objects.all()
+    serializer_class = ReadTagserializer
+    """
+    we can write queryset as below also, tjis is a implementation in method way
+    def get_queryset(self):
+    queryset = Tags.objecst.all()
+    return queryset
+    """
 
