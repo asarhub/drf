@@ -7,6 +7,7 @@ from tags.models import Tags
 from django.utils.text import slugify
 from django.core.cache import cache
 from rest_framework.generics import RetrieveAPIView,ListAPIView
+from tags.filters import StandardResultsSetPagination
 class CreateTagView(APIView):
     def post(self,request):
         #for write operation we use data=request.data(from client side validation)
@@ -79,4 +80,8 @@ class ListTagV2View(ListAPIView):#Here ListAPIView is mentioned because we are l
     queryset = Tags.objecst.all()
     return queryset
     """
-
+    #This is for pagination
+    #This part will call filters.py file where pagination details is present
+    #HERE in this case filters.py has 3 pages or JSON data printed
+    #Goto postman and try printing list view url, you will get 3 JSON data printed and next value link is also provided to check the next 3 values
+    pagination_class = StandardResultsSetPagination
