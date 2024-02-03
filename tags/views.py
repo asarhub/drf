@@ -6,7 +6,7 @@ from tags.serializers import WriteTagserializer, ReadTagserializer
 from tags.models import Tags
 from django.utils.text import slugify
 from django.core.cache import cache
-from rest_framework.generics import RetrieveAPIView,ListAPIView
+from rest_framework.generics import RetrieveAPIView,ListAPIView,DestroyAPIView
 from tags.filters import StandardResultsSetPagination
 class CreateTagView(APIView):
     def post(self,request):
@@ -85,3 +85,21 @@ class ListTagV2View(ListAPIView):#Here ListAPIView is mentioned because we are l
     #HERE in this case filters.py has 3 pages or JSON data printed
     #Goto postman and try printing list view url, you will get 3 JSON data printed and next value link is also provided to check the next 3 values
     pagination_class = StandardResultsSetPagination
+
+class DeleteTagView(APIView):
+    #Here for delete we will use delete function. It is not GET or POST
+    def delete(self, request, slug):
+        try:
+            tag_object = Tags.objects.get(slug=slug)
+            tag_object.delete()
+            return Response({"message",f"Tag deleted with slug {slug}"}, status=status.HTTP_200_OK)
+        except Tags.DoesNotExist:
+            return Response({"message":"Tag not found"},status=status.HTTP_404_NOT_FOUND)
+        except Tags.MultipleObjectReturned:
+            return Response({"message":"Multiple tags exist for given slug"},status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteTagV2View(DestroyAPIView):
+    #DestroAPI view is helpfull for deleting the object
+    queryset = Tags.objects.all()
+    #serializer_class = ReadTagserializer
+    lookup_field = "slug"
