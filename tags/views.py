@@ -89,7 +89,9 @@ class ListTagV2View(ListAPIView):#Here ListAPIView is mentioned because we are l
     #This part will call filters.py file where pagination details is present
     #HERE in this case filters.py has 3 pages or JSON data printed
     #Goto postman and try printing list view url, you will get 3 JSON data printed and next value link is also provided to check the next 3 values
-    pagination_class = StandardResultsSetPagination
+    #pagination_class = StandardResultsSetPagination
+    #If you dont want pagination for particular class then we have to mention it as "pagination_class = None"
+    #It is required that some classes dont want this pagination to be happen, so we are defining it as None
 
 class DeleteTagView(APIView):
     #Here for delete we will use delete function. It is not GET or POST

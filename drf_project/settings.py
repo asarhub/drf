@@ -137,3 +137,15 @@ CACHES = {
     }
 }
 """
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',#Here , is present at the end because it mentioned as Classes
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+       'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_PAGINATION_CLASS': (
+        'tags.filters.StandardResultsSetPagination'
+    )
+}
