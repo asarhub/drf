@@ -8,6 +8,9 @@ from django.utils.text import slugify
 from django.core.cache import cache
 from rest_framework.generics import RetrieveAPIView,ListAPIView,DestroyAPIView
 from tags.filters import StandardResultsSetPagination
+#This is for generic caching
+#from django.views.decorators.cache import cache_page
+#from django.utils.decorators import method_decorator
 class CreateTagView(APIView):
     def post(self,request):
         #for write operation we use data=request.data(from client side validation)
@@ -70,6 +73,8 @@ class DetailTagV2View(RetrieveAPIView):#Here RetrieveAPIView is mentioned becaus
     #then based on slug unformation , the corresponding object is printed in postman window
     lookup_field = "slug"
 
+#The below method decorator is for generic caching
+#@method_decorator(cache_page(60*5), name='dispatch')
 class ListTagV2View(ListAPIView):#Here ListAPIView is mentioned because we are listing more than 1 object
     #here parameter is not there in url so lookup field is not there, Here we are fetching full json information
     queryset = Tags.objects.all()
