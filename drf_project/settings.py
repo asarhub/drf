@@ -150,6 +150,8 @@ REST_FRAMEWORK = {
        #'rest_framework.permissions.AllowAny',
         #for custom authentication use below code. For this permissions.py file is required where isAuthenticated class is present
         'authentication.permissions.IsUserAuthenticated',
+        'authentication.permissions.IsActiveUser',
+        'authentication.permissions.IsAdminUser'
     ),
     'DEFAULT_PAGINATION_CLASS': (
         'tags.filters.StandardResultsSetPagination'
@@ -158,7 +160,7 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     #here the token will be expired after 1 day
     #i.e people cannot use the same token again after 1 day
-    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     #Algorithm and signing key is present in jwt debugger. This is helpful for encryption
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY

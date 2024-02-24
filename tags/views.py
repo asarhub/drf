@@ -11,7 +11,9 @@ from tags.filters import StandardResultsSetPagination
 #This is for generic caching
 #from django.views.decorators.cache import cache_page
 #from django.utils.decorators import method_decorator
+from authentication.permissions import IsAdminUser
 class CreateTagView(APIView):
+    permission_classes = (IsAdminUser,)
     def post(self,request):
         #for write operation we use data=request.data(from client side validation)
         #Use case 1
