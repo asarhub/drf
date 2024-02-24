@@ -10,6 +10,8 @@ from django.contrib.auth.models import auth
 class sign_up_view(APIView):
     # page_name="sign-up.html"
     def post(self, request):
+        authentication_classes = []
+        permissions_classes = []
         print("Not caching)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))")
         username = request.data['username']
         email = request.data['email']
