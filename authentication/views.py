@@ -4,6 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import auth
+from rest_framework.generics import ListAPIView
+from authentication.models import User
+from authentication.serializers import ReadUserSerializer
 
 
 # Create your views here.
@@ -46,3 +49,9 @@ class sign_up_view(APIView):
         else:
             # return render(request,page_name,{"error":True,"msg":"Authentication dint happened"}
             return Response({"error": True, "msg": "Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserList(ListAPIView):
+    #making userlist as None because to view regardless of specific user
+    permission_classes = []
+    queryset = User.objects.all()
+    serializer_class = ReadUserSerializer

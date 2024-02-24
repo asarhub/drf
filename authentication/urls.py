@@ -3,10 +3,11 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from django.urls import path, include
-from authentication.views import sign_up_view
+from authentication.views import sign_up_view, UserList
 
 urlpatterns = [
     path('sign-up/', sign_up_view.as_view(), name="sign_up"),
     path('sign-in/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('users/',UserList.as_view(), name ='user_list')
 ]
