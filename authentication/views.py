@@ -11,6 +11,7 @@ from rest_framework.generics import ListAPIView
 from authentication.models import User
 from authentication.serializers import ReadUserSerializer
 from authentication.permissions import Dummypermission, Dummypermission2, IsAdminUser
+from authentication.throttle import CustomRateThrottle
 
 
 # Create your views here.
@@ -67,6 +68,8 @@ class UserList(ListAPIView):
     authentication_classes = (ThirdPartyAuthentication,JWTAuthentication)
     permission_classes = (IsAdminUser, )#This will paass in third party authentication because is_superuser= True will be coming from thirdpartauthentication class
     serializer_class = ReadUserSerializer
+    #This is for throttling. Please follow the syntax below
+    throttle_classes = (CustomRateThrottle, )
 
     def get_queryset(self):
         print("Request user id",self.request.user.id)

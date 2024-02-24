@@ -127,12 +127,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Used for caching
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
-        "LOCATION": "redis://127.0.0.1:6379",
-    }
-}
+#CACHES = {
+    #"default": {
+        #"BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        #"LOCATION": "redis://127.0.0.1:6379",
+    #}
+#}
 """This is for dummy caching
 CACHES = {
     "default": {
@@ -140,6 +140,19 @@ CACHES = {
     }
 }
 """
+#For throttling effect we removed earlier cache. It was giving some operational error due to some redis problems
+"""
+You're specifying a cache backend named 'default', and you're using the LocMemCache backend, 
+which stands for "Local Memory Cache." 
+This cache backend stores cached data in memory, which means it's local to the Django 
+process and not shared between multiple Django instances or servers. Here's a breakdown of 
+the configuration:
+"""
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
