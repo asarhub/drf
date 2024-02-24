@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+from datetime import timedelta
+
 import redis
 from pathlib import Path
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'tags',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -143,9 +146,20 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',#Here , is present at the end because it mentioned as Classes
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-       'rest_framework.permissions.AllowAny',
+        #below one is for default permissions for authentication. This will work
+       #'rest_framework.permissions.AllowAny',
+        #for custom authentication use below code. For this permissions.py file is required where isAuthenticated class is present
+        'authentication.permissions.IsUserAuthenticated',
     ),
     'DEFAULT_PAGINATION_CLASS': (
         'tags.filters.StandardResultsSetPagination'
     )
+}
+SIMPLE_JWT = {
+    #here the token will be expired after 1 day
+    #i.e people cannot use the same token again after 1 day
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=30),
+    #Algorithm and signing key is present in jwt debugger. This is helpful for encryption
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY
 }
