@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from authentication.authentication import ThirdPartyAuthentication
 from authentication.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,7 +10,7 @@ from django.contrib.auth.models import auth
 from rest_framework.generics import ListAPIView
 from authentication.models import User
 from authentication.serializers import ReadUserSerializer
-from authentication.permissions import Dummypermission, Dummypermission2
+from authentication.permissions import Dummypermission, Dummypermission2, IsAdminUser
 
 
 # Create your views here.
@@ -53,6 +56,20 @@ class sign_up_view(APIView):
 
 class UserList(ListAPIView):
     #making userlist as None because to view regardless of specific user
-    permission_classes = [Dummypermission,Dummypermission2]#here ,is memtioned for 2 permission. This is and operation . if you want or then mention |
-    queryset = User.objects.all()
+    #permission_classes = [Dummypermission,Dummypermission2]#here ,is memtioned for 2 permission. This is and operation . if you want or then mention |
+    #queryset = User.objects.all()
+    #serializer_class = ReadUserSerializer
+    #*Below is for third party authentication*#
+    #Doing OR for authentication classes
+    #authentication_classes = (ThirdPartyAuthentication,JWTAuthentication)
+    #but for permissions doing OR means permission_classes = [Dummypermission,Dummypermission2]
+    #This difference you need to note it down
+    authentication_classes = (ThirdPartyAuthentication,JWTAuthentication)
+    permission_classes = (IsAdminUser, )#This will paass in third party authentication because is_superuser= True will be coming from thirdpartauthentication class
     serializer_class = ReadUserSerializer
+
+    def get_queryset(self):
+        print("Request user id",self.request.user.id)
+        print("request user username", self.request.user.username)
+        queryset = User.objects.all()
+        return queryset
