@@ -7,6 +7,7 @@ from django.contrib.auth.models import auth
 from rest_framework.generics import ListAPIView
 from authentication.models import User
 from authentication.serializers import ReadUserSerializer
+from authentication.permissions import Dummypermission, Dummypermission2
 
 
 # Create your views here.
@@ -52,6 +53,6 @@ class sign_up_view(APIView):
 
 class UserList(ListAPIView):
     #making userlist as None because to view regardless of specific user
-    permission_classes = []
+    permission_classes = [Dummypermission,Dummypermission2]#here ,is memtioned for 2 permission. This is and operation . if you want or then mention |
     queryset = User.objects.all()
     serializer_class = ReadUserSerializer
