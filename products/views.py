@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from authentication.permissions import IsAdminUser
 from products.models import Products
-from products.serializers import WriteProductSerializer
+from products.serializers import WriteProductSerializer,ReadProductSerializer
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from django.utils.text import slugify
+from tags.filters import StandardResultsSetPagination
 
 # Create your views here.
 class CreateProductView(APIView):
@@ -35,5 +36,8 @@ class DetailProductView(RetrieveAPIView):
     pass
 
 class ListProductView(ListAPIView):
-    pass
+    #queryset parameter will be taken by ReadProductSerializer directly. This fucntionality is given only in ListAPIView or RetrieveAPIView
+    queryset = Products.objects.all()
+    serializer_class = ReadProductSerializer
+    pagination_class = StandardResultsSetPagination
 
