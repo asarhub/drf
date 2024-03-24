@@ -25,8 +25,11 @@ class CreateProductView(APIView):
                 quantity=serializer.validated_data.get('quantity'),
                 description=serializer.validated_data.get('description')
             )
+            #print(product)
             product.tags.set(serializer.validated_data.get('tags'))
-            return Response(status=HTTP_200_OK)
+            response_data = ReadProductSerializer(instance=product).data
+            return Response(response_data,status=HTTP_200_OK)
+            #return Response(status=HTTP_200_OK)
         else:
             print("&&&&&&&&&&&&")
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)

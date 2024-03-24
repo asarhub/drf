@@ -7,7 +7,7 @@ class Products(models.Model):
     description = models.TextField(null=True)
     price = models.BigIntegerField()
     quantity = models.BigIntegerField(default=0)
-    tags = models.ManyToManyField(Tags)
+    tags = models.ManyToManyField(Tags,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
