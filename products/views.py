@@ -33,7 +33,10 @@ class CreateProductView(APIView):
 
 
 class DetailProductView(RetrieveAPIView):
-    pass
+    #Here based on id, we can print the values present in the database
+    queryset = Products.objects.all()
+    serializer_class = ReadProductSerializer
+    lookup_field = 'id'
 
 class ListProductView(ListAPIView):
     #queryset parameter will be taken by ReadProductSerializer directly. This fucntionality is given only in ListAPIView or RetrieveAPIView
