@@ -9,4 +9,7 @@ class Tags(models.Model):
     class Meta:
         db_table = "tags"
 
+    #It prints string version of an object
+    def __str__(self):
+        return self.name
 

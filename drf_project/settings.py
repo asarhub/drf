@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'tags',
     'authentication',
-    'products'
+    'products',
+    'django_filters'
 ]
 
 MIDDLEWARE = [

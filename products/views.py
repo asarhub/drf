@@ -8,6 +8,8 @@ from products.serializers import WriteProductSerializer,ReadProductSerializer
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from django.utils.text import slugify
 from tags.filters import StandardResultsSetPagination
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 class CreateProductView(APIView):
@@ -46,4 +48,13 @@ class ListProductView(ListAPIView):
     queryset = Products.objects.all()
     serializer_class = ReadProductSerializer
     pagination_class = StandardResultsSetPagination
+    authentication_classes = []
+    permission_classes = []
+    filter_backends = [filters.OrderingFilter,filters.SearchFilter,DjangoFilterBackend]
+    Ordering_fields = ['id','created_at']
+    #we can print the data in reverse way based on id using the code below,(If WE Dont write any query params)
+    ordering = ["-id"]
+    #open it in mozilla firefox, you will get everything-127.0.0.1:8000/products/list
+    search_fields = ["^name"]
+    filterset_fields = ["id","price","tags"]
 
