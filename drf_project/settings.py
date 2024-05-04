@@ -182,3 +182,17 @@ SIMPLE_JWT = {
 }
 
 THIRD_PARTY_TOKEN='yfF7SdbP3z5PUl2l'
+
+#EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_HOST = '127.0.0.1'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 1025
+EMAIL_USE_TLS = False
+"""
+CRONJOBS = [
+    #It means every minute, the message will go
+    ('* * * * *','products.mailer.email_function')
+]
+"""
