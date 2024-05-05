@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'tags',
     'authentication',
     'products',
-    'django_filters'
+    'django_filters',
+    'orders'
 ]
 
 MIDDLEWARE = [
